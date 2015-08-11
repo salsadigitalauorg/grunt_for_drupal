@@ -1,0 +1,17 @@
+@mixin kurt($a, $b, $c) {
+  background-color: $a;
+  font-size: $b;
+  color: $c;
+}
+
+body {
+  div {
+    background-color: orange;
+    width: 10px
+  }
+  h1 {
+    width: 48px;
+    height: 100%;
+  }
+  @include kurt(#ff0000, 24px, blue);
+}
