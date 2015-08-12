@@ -1,4 +1,7 @@
+var fs = require('fs');
+
 module.exports = function(grunt) {
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -6,7 +9,7 @@ module.exports = function(grunt) {
     // JAVASCRIPT
     // ================================================
     jsbeautifier : {
-      files : ["src/js/*.js", "src/sass/*.scss"],
+      files : ["../src/js/*.js", "../src/sass/*.scss"],
       options : {
         html: {
           braceStyle: "collapse",
@@ -46,15 +49,15 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: ['src/js/*.js']
+      all: ['../src/js/*.js']
     },
     concat: {
       options: {
         separator: '\n\n',
       },
       dist: {
-        src: ['src/js/*.js'],
-        dest: 'js/script.js'
+        src: ['../src/js/*.js'],
+        dest: '../js/script.js'
       }
     },
     uglify: {
@@ -62,8 +65,8 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'js/script.js',
-        dest: 'js/script.min.js'
+        src: '../js/script.js',
+        dest: '../js/script.min.js'
       }
     },
     // ================================================
@@ -72,18 +75,33 @@ module.exports = function(grunt) {
     compass: {
       dist: {
         options: {
-          config: 'config.rb'
+          config: '../config.rb'
         }
+      }
+    },
+    // ================================================
+    // PHP
+    // ================================================
+    phpcs: {
+      application: {
+        src: ['../template.php', '../templates/*.php']
+      },
+      options: {
+        bin: '/Users/salsadigital/pear/bin/phpcs',
+        standard: 'Drupal'
       }
     }
   });
+
+  // To Implement: Load a user created grunt_settings.js file.
 
   grunt.loadNpmTasks("grunt-jsbeautifier");
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-phpcs');
 
   // Default task(s).
-  grunt.registerTask('default', ['jsbeautifier', 'jshint', 'concat', 'uglify', 'compass']);
+  grunt.registerTask('default', ['jsbeautifier', 'jshint', 'concat', 'uglify', 'compass', 'phpcs']);
 };
