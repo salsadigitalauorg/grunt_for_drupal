@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     // JAVASCRIPT
     // ================================================
     jsbeautifier : {
-      files : ["../src/js/*.js", "../src/sass/*.scss"],
+      files : ["../src/js/**/*.js", "../src/sass/**/*.scss"],
       options : {
         html: {
           braceStyle: "collapse",
@@ -97,13 +97,13 @@ module.exports = function(grunt) {
 
   // To Implement: Load a user created grunt_settings.js file.
 
-  grunt.loadNpmTasks("grunt-jsbeautifier");
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks("grunt-jsbeautifier");
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-phpcs');
 
   // Default task(s).
-  grunt.registerTask('default', ['jsbeautifier', 'jshint', 'concat', 'uglify', 'compass', 'phpcs']);
+  grunt.registerTask('default', ['jshint', 'jsbeautifier', 'concat', 'uglify', 'compass', 'phpcs']);
 };
