@@ -88,7 +88,10 @@ module.exports = function(grunt) {
       },
       options: {
         bin: '/Users/salsadigital/pear/bin/phpcs',
-        standard: 'Drupal'
+        standard: 'Drupal',
+        severity: 1,
+        errorSeverity: 1,
+        warningSeverity: 0
       }
     }
   });
