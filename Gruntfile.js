@@ -1,5 +1,3 @@
-var fs = require('fs');
-
 module.exports = function(grunt) {
 
   // Project configuration.
@@ -75,6 +73,7 @@ module.exports = function(grunt) {
     compass: {
       dist: {
         options: {
+          basePath: '../',
           config: '../config.rb'
         }
       }
