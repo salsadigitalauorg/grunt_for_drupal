@@ -22,7 +22,8 @@ module.exports = function(grunt) {
         css: {
           fileTypes: [".scss"],
           indentChar: " ",
-          indentSize: 2
+          indentSize: 2,
+          selectorSeparatorNewline: false
         },
         js: {
           braceStyle: "collapse",
