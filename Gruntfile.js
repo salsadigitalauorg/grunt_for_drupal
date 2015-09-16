@@ -1,4 +1,20 @@
+var fs = require('fs');
+
+function loadExternalGruntSettings() {
+  try {
+    var data = fs.readFileSync('.local_grunt_settings.json', 'utf8');
+    var ob = JSON.parse(data);
+    console.log('Using Local Settings');
+    return ob;
+  }
+  catch(e) {
+    return false;
+  }
+}
+
 module.exports = function(grunt) {
+
+  var localSettings = loadExternalGruntSettings();
 
   // Project configuration.
   grunt.initConfig({
@@ -87,7 +103,7 @@ module.exports = function(grunt) {
         src: ['../template.php', '../templates/*.php']
       },
       options: {
-        bin: '/Users/salsadigital/pear/bin/phpcs',
+        bin: localSettings.phpcs_bin || '/Users/salsadigital/pear/bin/phpcs',
         standard: 'Drupal',
         severity: 1,
         errorSeverity: 1,
