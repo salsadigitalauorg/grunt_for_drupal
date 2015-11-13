@@ -1,4 +1,4 @@
-Using The Grunt Setup
+Using The Grunt for Drupal v2.0 Setup
 =======
 
 Setting Up
@@ -8,17 +8,11 @@ Setting Up
 
 If not you can get it from [here](https://nodejs.org/download/)
 
+*NOTE*: Grunt for Drupal v2.0 requires nodejs 5.0, as it's node_module folder is set to support the npm -v 3.3.6.
+
 ### Do you have Grunt installed?
 
 If not you can get it by running `npm install -g grunt-cli` in command line
-
-### Do you have SASS / Compass installed?
-
-If not you will need:
-
-1. [Ruby](https://www.ruby-lang.org/en/downloads/)
-2. [SASS](http://sass-lang.com/install)
-3. [Compass](http://compass-style.org/install/)
 
 ### Do you have PHP_CodeSniffer installed?
 
@@ -41,13 +35,14 @@ Using Grunt - The quick version
 -----------
 
   1. Add you JS and SCSS files in '/src/js' and '/src/sass' directories.
-  2. Use command line to navigate to the root directory (directory containing Gruntfile.js) and type `grunt`.
+  2. Use command line to navigate to the root directory (directory containing Gruntfile.js) and type `grunt` for a full compile.
+  3. If you wish to use the auto-compile, type `grunt watch`. It will compile the necessary parts depending on what files change.
 
 Where do I put my code?
 -----------
 
 Within the '/src' folder, place all working SCSS and JS files in their respective subdirectories.
-When run, Grunt will populate the '/css' and '/js' folders.
+When run, Grunt will populate the '/dist/css' and '/dist/js' folders.
 
 What is Grunt doing?
 -----------
@@ -56,14 +51,12 @@ Within the `Gruntfile.js`, the following processes are run:
 
   * jsbeautifier
     * Formats working JS and SCSS files.
-  * jshint
-    * Runs a linter over the JS files and picks up on format issues.
   * concat
     * Merges all JS files into 1. Allows breaking up of JS files into components.
-  * uglify
-    * Minify the single JS file, for production use.
-  * compass
-    * Compile the SCSS using Compass, and the 'config.rb' file.
+  * babel
+    * Compiles javascript into compatible < ES2015 script.
+  * sass
+    * Compile the SCSS.
   * phpcs
     * Code Sniffer for Drupal PHP files.
 
@@ -74,11 +67,13 @@ If you create a JSON file called `.local_grunt_settings.json` in the same direct
 as Gruntfile.js.  When grunt runs it will use the settings from this file instead of
 the defaults.
 
-Example JSON:
+### Example JSON for `.local_grunt_settings.json`:
+
 {
   "phpcs_bin": "/Users/salsadigital/pear/bin/phpcs"
 }
 
-Supported Settings:
+### Supported Settings:
+
 - phpcs_bin
   - This is your local system's directory to PHP Code Sniffer.

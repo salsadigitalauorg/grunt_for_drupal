@@ -4,7 +4,7 @@ function loadExternalGruntSettings() {
   try {
     var data = fs.readFileSync('.local_grunt_settings.json', 'utf8');
     var ob = JSON.parse(data);
-    console.log('Using Local Settings');
+    console.log('* Using Local Settings');
     return ob;
   }
   catch(e) {
@@ -14,13 +14,17 @@ function loadExternalGruntSettings() {
 
 module.exports = function(grunt) {
 
+  console.log("================================================");
+  console.log("Grunt for Drupal - v2.0");
+  console.log("================================================");
   var localSettings = loadExternalGruntSettings();
+  console.log("------------------------------------------------");
 
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     // ================================================
-    // JAVASCRIPT
+    // JavaScript / SASS Beautifier
     // ================================================
     jsbeautifier : {
       files : ["../src/js/**/*.js", "../src/sass/**/*.scss"],
@@ -63,40 +67,47 @@ module.exports = function(grunt) {
         }
       }
     },
-    jshint: {
-      all: ['../src/js/*.js']
-    },
+    // ================================================
+    // Concat
+    // ================================================
     concat: {
       options: {
         separator: '\n\n',
       },
       dist: {
-        src: ['../src/js/*.js'],
-        dest: '../js/script.js'
+        src: ['../src/js/**/*.js'],
+        dest: '../dist/js/script.js'
       }
     },
-    uglify: {
+    // ================================================
+    // JS Transpiler
+    // ================================================
+    babel: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        sourceMap: true,
+        presets: ['babel-preset-es2015']
       },
-      build: {
-        src: '../js/script.js',
-        dest: '../js/script.min.js'
-      }
-    },
-    // ================================================
-    // STYLESHEETS
-    // ================================================
-    compass: {
       dist: {
-        options: {
-          basePath: '../',
-          config: '../config.rb'
+        files: {
+          '../dist/js/script.compat.js': '../dist/js/script.js'
         }
       }
     },
     // ================================================
-    // PHP
+    // SASS
+    // ================================================
+    sass: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          '../dist/css/styles.css': '../src/sass/styles.scss'
+        }
+      }
+    },
+    // ================================================
+    // Drupal Code Sniffer
     // ================================================
     phpcs: {
       application: {
@@ -109,18 +120,44 @@ module.exports = function(grunt) {
         errorSeverity: 1,
         warningSeverity: 0
       }
+    },
+    // ================================================
+    // Watch
+    // ================================================
+    watch: {
+      scripts: {
+        files: ['../src/js/**/*.js'],
+        tasks: ['jsbeautifier', 'concat', 'babel'],
+        options: {
+          spawn: false,
+        },
+      },
+      styles: {
+        files: ['../src/sass/**/*.scss'],
+        tasks: ['jsbeautifier', 'sass'],
+        options: {
+          spawn: false,
+        },
+      },
+      templates: {
+        files: ['../template.php', '../templates/*.php'],
+        tasks: ['phpcs'],
+        options: {
+          spawn: false,
+        },
+      }
     }
   });
 
   // To Implement: Load a user created grunt_settings.js file.
 
   grunt.loadNpmTasks("grunt-jsbeautifier");
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-babel');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-phpcs');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'jsbeautifier', 'concat', 'uglify', 'compass', 'phpcs']);
+  grunt.registerTask('default', ['jsbeautifier', 'concat', 'babel', 'sass', 'phpcs']);
 };
