@@ -1,4 +1,4 @@
-Using The Grunt for Drupal v2.0 Setup
+Using The Grunt for Drupal v2.1 Setup
 =======
 
 Setting Up
