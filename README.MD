@@ -8,8 +8,6 @@ Setting Up
 
 If not you can get it from [here](https://nodejs.org/download/)
 
-*NOTE*: Grunt for Drupal v2.0 requires nodejs 5.0, as it's node_module folder is set to support the npm -v 3.3.6.
-
 ### Do you have Grunt installed?
 
 If not you can get it by running `npm install -g grunt-cli` in command line
