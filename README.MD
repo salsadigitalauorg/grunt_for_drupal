@@ -35,8 +35,9 @@ Using Grunt - The quick version
 -----------
 
   1. Add you JS and SCSS files in '/src/js' and '/src/sass' directories.
-  2. Use command line to navigate to the root directory (directory containing Gruntfile.js) and type `grunt` for a full compile.
-  3. If you wish to use the auto-compile, type `grunt watch`. It will compile the necessary parts depending on what files change.
+  2. Use command line to navigate to the root directory (directory containing Gruntfile.js) and type `npm install` to install all modules.
+  3. Type `grunt` for a full compile.
+  4. If you wish to use the auto-compile, type `grunt watch`. It will compile the necessary parts depending on what files change.
 
 Where do I put my code?
 -----------
@@ -53,8 +54,6 @@ Within the `Gruntfile.js`, the following processes are run:
     * Formats working JS and SCSS files.
   * concat
     * Merges all JS files into 1. Allows breaking up of JS files into components.
-  * babel
-    * Compiles javascript into compatible < ES2015 script.
   * sass
     * Compile the SCSS.
   * phpcs

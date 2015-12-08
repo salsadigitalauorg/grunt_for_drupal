@@ -15,7 +15,7 @@ function loadExternalGruntSettings() {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.0");
+  console.log("Grunt for Drupal - v2.1");
   console.log("================================================");
   var localSettings = loadExternalGruntSettings();
   console.log("------------------------------------------------");
@@ -80,20 +80,6 @@ module.exports = function(grunt) {
       }
     },
     // ================================================
-    // JS Transpiler
-    // ================================================
-    babel: {
-      options: {
-        sourceMap: true,
-        presets: ['babel-preset-es2015']
-      },
-      dist: {
-        files: {
-          '../dist/js/script.compat.js': '../dist/js/script.js'
-        }
-      }
-    },
-    // ================================================
     // SASS
     // ================================================
     sass: {
@@ -127,7 +113,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['../src/js/**/*.js'],
-        tasks: ['jsbeautifier', 'concat', 'babel'],
+        tasks: ['jsbeautifier', 'concat'],
         options: {
           spawn: false,
         },
@@ -153,11 +139,10 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks("grunt-jsbeautifier");
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-phpcs');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
-  grunt.registerTask('default', ['jsbeautifier', 'concat', 'babel', 'sass', 'phpcs']);
+  grunt.registerTask('default', ['jsbeautifier', 'concat', 'sass', 'phpcs']);
 };
