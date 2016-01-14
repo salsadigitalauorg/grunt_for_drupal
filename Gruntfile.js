@@ -15,12 +15,13 @@ function loadExternalGruntSettings() {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.2");
+  console.log("Grunt for Drupal - v2.3");
   console.log("================================================");
   var localSettings = loadExternalGruntSettings();
   var THEME_DIR     = localSettings.theme_directory || '../';
   var MODULE_DIR    = localSettings.custom_modules_directory || null;
   var PHPCS_BIN_DIR = localSettings.phpcs_bin || null;
+  var USE_COMPASS   = localSettings.use_compass || false;
   console.log("------------------------------------------------");
 
   // =========================================================
@@ -126,23 +127,40 @@ module.exports = function(grunt) {
   // ================================================
   // SASS
   // ================================================
-  grunt.loadNpmTasks('grunt-sass');
-  REGISTERED_TASKS = REGISTERED_TASKS.concat(['sass']);
+  if (USE_COMPASS) {
+    grunt.loadNpmTasks('grunt-contrib-compass');
+    REGISTERED_TASKS = REGISTERED_TASKS.concat(['compass']);
 
-  var sass_config = {
-    options: {
-      sourceMap: true,
-      outputStyle: 'expanded'
-    },
-    dist: {
-      files: {}
-    }
-  };
-  sass_config.dist.files[THEME_DIR + 'dist/css/styles.css'] = THEME_DIR + 'src/sass/styles.scss';
+    GRUNT_CONFIG['compass'] = {
+      dist: {
+        options: {
+          basePath: THEME_DIR,
+          config: THEME_DIR + 'config.rb'
+        }
+      }
+    };
 
-  GRUNT_CONFIG['sass'] = sass_config;
+    GRUNT_CONFIG.watch.styles.tasks.push('compass');
+  }
+  else {
+    grunt.loadNpmTasks('grunt-sass');
+    REGISTERED_TASKS = REGISTERED_TASKS.concat(['sass']);
 
-  GRUNT_CONFIG.watch.styles.tasks.push('sass');
+    var sass_config = {
+      options: {
+        sourceMap: true,
+        outputStyle: 'expanded'
+      },
+      dist: {
+        files: {}
+      }
+    };
+    sass_config.dist.files[THEME_DIR + 'dist/css/styles.css'] = THEME_DIR + 'src/sass/styles.scss';
+
+    GRUNT_CONFIG['sass'] = sass_config;
+
+    GRUNT_CONFIG.watch.styles.tasks.push('sass');
+  }
 
   // ================================================
   // Drupal Code Sniffer

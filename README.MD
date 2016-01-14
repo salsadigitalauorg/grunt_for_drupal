@@ -67,7 +67,8 @@ the defaults.
 {
   "custom_modules_directory": "../../modules/custom/",
   "theme_directory": "../",
-  "phpcs_bin": "/Users/salsadigital/pear/bin/phpcs"
+  "phpcs_bin": "/Users/salsadigital/pear/bin/phpcs",
+  "use_compass": false
 }
 
 ### Supported Settings:
@@ -80,3 +81,6 @@ the defaults.
 - `phpcs_bin`
   - This is your local system's directory to PHP Code Sniffer.
     If not defined, then PHPCS will not run.
+- `use_compass`
+  - If set to `true` will use compass config.rb to compile stylesheets.
+    If not defined, will default to LibSass.
