@@ -21,6 +21,7 @@ module.exports = function(grunt) {
   var localSettings         = loadExternalGruntSettings();
   var THEME_DIR             = localSettings.theme_directory || '../';
   var MODULE_DIR            = localSettings.custom_modules_directory || null;
+  var PROFILE_MODULE_DIR            = localSettings.profile_modules_directory || null;
   var PHPCS_BIN_DIR         = localSettings.phpcs_bin || null;
   var USE_COMPASS           = localSettings.use_compass || false;
   var USE_IMAGE_COMPRESSION = localSettings.use_image_compression || false;
@@ -46,6 +47,11 @@ module.exports = function(grunt) {
   if (MODULE_DIR !== null) {
     script_files = script_files.concat([
       MODULE_DIR + "**/*.js"
+    ]);
+  }
+  if (PROFILE_MODULE_DIR !== null) {
+    script_files = script_files.concat([
+      PROFILE_MODULE_DIR + "**/*.js"
     ]);
   }
   var jsbeautifier_files = script_files.concat(style_files);
@@ -272,6 +278,15 @@ module.exports = function(grunt) {
         MODULE_DIR + '**/*.install',
         MODULE_DIR + '**/*.module',
         MODULE_DIR + '**/*.php'
+      ]);
+    }
+
+    if (PROFILE_MODULE_DIR !== null) {
+      phpcs_src_files = phpcs_src_files.concat([
+        PROFILE_MODULE_DIR + '**/*.inc',
+        PROFILE_MODULE_DIR + '**/*.install',
+        PROFILE_MODULE_DIR + '**/*.module',
+        PROFILE_MODULE_DIR + '**/*.php'
       ]);
     }
 
