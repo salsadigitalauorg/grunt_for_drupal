@@ -8,6 +8,7 @@ function loadExternalGruntSettings() {
     return ob;
   }
   catch(e) {
+    console.log('* Local settings not found. Using defaults.')
     return false;
   }
 }
@@ -15,13 +16,14 @@ function loadExternalGruntSettings() {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.3");
+  console.log("Grunt for Drupal - v2.4");
   console.log("================================================");
-  var localSettings = loadExternalGruntSettings();
-  var THEME_DIR     = localSettings.theme_directory || '../';
-  var MODULE_DIR    = localSettings.custom_modules_directory || null;
-  var PHPCS_BIN_DIR = localSettings.phpcs_bin || null;
-  var USE_COMPASS   = localSettings.use_compass || false;
+  var localSettings         = loadExternalGruntSettings();
+  var THEME_DIR             = localSettings.theme_directory || '../';
+  var MODULE_DIR            = localSettings.custom_modules_directory || null;
+  var PHPCS_BIN_DIR         = localSettings.phpcs_bin || null;
+  var USE_COMPASS           = localSettings.use_compass || false;
+  var USE_IMAGE_COMPRESSION = localSettings.use_image_compression || false;
   console.log("------------------------------------------------");
 
   // =========================================================
@@ -52,7 +54,7 @@ module.exports = function(grunt) {
     files : jsbeautifier_files,
     options : {
       html: {
-        braceStyle: "collapse",
+        braceStyle: "end-expand",
         indentChar: " ",
         indentScripts: "keep",
         indentSize: 2,
@@ -65,10 +67,11 @@ module.exports = function(grunt) {
         fileTypes: [".scss"],
         indentChar: " ",
         indentSize: 2,
-        selectorSeparatorNewline: false
+        selectorSeparatorNewline: false,
+        end_with_newline: true
       },
       js: {
-        braceStyle: "collapse",
+        braceStyle: "end-expand",
         breakChainedMethods: false,
         e4x: false,
         evalCode: false,
@@ -107,7 +110,95 @@ module.exports = function(grunt) {
   };
 
   // ================================================
-  // Concat
+  // IMAGE OPTIMISATION
+  // ================================================
+  if (USE_IMAGE_COMPRESSION) {
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-svgmin');
+    grunt.loadNpmTasks('grunt-pngmin');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
+    REGISTERED_TASKS = REGISTERED_TASKS.concat(['svgmin', 'pngmin', 'imagemin', 'copy']);
+
+    GRUNT_CONFIG['svgmin'] = {
+      options: {
+        plugins: [{
+          removeViewBox: false
+        }, {
+          removeUselessStrokeAndFill: false
+        }]
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: THEME_DIR + 'src/images/svg/optimise/',
+          src: ['**/*.svg'],
+          dest: THEME_DIR + 'dist/images/svg/'
+        }]
+      }
+    };
+
+    GRUNT_CONFIG['pngmin'] = {
+      compile: {
+        options: {
+          ext: '.png',
+          force: true
+        },
+        files: [
+          {
+            expand: true,
+            cwd: THEME_DIR + 'src/images/png/optimise/',
+            src: '**/*.png',
+            dest: THEME_DIR + 'dist/images/png/',
+            filter: 'isFile'
+          }
+        ]
+      }
+    };
+
+    GRUNT_CONFIG['imagemin'] = {
+      jpg: {
+        files: [
+          {
+            expand: true,
+            cwd: THEME_DIR + 'src/images/jpg/optimise/',
+            src: '**/*.jpg',
+            dest: THEME_DIR + 'dist/images/jpg/',
+            filter: 'isFile'
+          }
+        ]
+      }
+    };
+
+    GRUNT_CONFIG['copy'] = {
+      png: {
+        expand: true,
+        cwd: THEME_DIR + 'src/images/png/raw/',
+        src: '**',
+        dest: THEME_DIR + 'dist/images/png/',
+        flatten: true,
+        filter: 'isFile'
+      },
+      svg: {
+        expand: true,
+        cwd: THEME_DIR + 'src/images/svg/raw/',
+        src: '**',
+        dest: THEME_DIR + 'dist/images/svg/',
+        flatten: true,
+        filter: 'isFile'
+      },
+      jpg: {
+        expand: true,
+        cwd: THEME_DIR + 'src/images/jpg/raw/',
+        src: '**',
+        dest: THEME_DIR + 'dist/images/jpg/',
+        flatten: true,
+        filter: 'isFile'
+      },
+    };
+  }
+
+  // ================================================
+  // SCRIPT CONCAT
   // ================================================
   grunt.loadNpmTasks('grunt-contrib-concat');
   REGISTERED_TASKS = REGISTERED_TASKS.concat(['concat']);

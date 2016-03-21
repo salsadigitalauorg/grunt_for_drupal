@@ -1,4 +1,4 @@
-Using The Grunt for Drupal v2.1 Setup
+Using The Grunt for Drupal v2.4 Setup
 =======
 
 Setting Up
@@ -35,11 +35,35 @@ Using Grunt - The quick version
   3. Type `grunt` for a full compile.
   4. If you wish to use the auto-compile, type `grunt watch`. It will compile the necessary parts depending on what files change.
 
-Where do I put my theme script and styles?
+Where do I put my theme script, styles and images?
 -----------
 
-Within the '/src' folder, place all working SCSS and JS files in their respective subdirectories.
-When run, Grunt will populate the '/dist/css' and '/dist/js' folders.
+Within the '/src' folder, place all working SCSS, JS and image files in their respective subdirectories.
+When run, Grunt will populate the '/dist/css', '/dist/js' and 'dist/images' folders.
+
+An example of a src folder setup is:
+
+src/
+  sass/
+    `styles.scss`
+  js/
+    `scripts.js`
+  images/
+    jpg/
+      optimise/
+        `optimise.jpg`
+      raw/
+        `raw.jpg`
+    png/
+      optimise/
+        `optimise.png`
+      raw/
+        `raw.png`
+    svg/
+      optimise/
+        `optimise.svg`
+      raw/
+        `raw.svg`
 
 What is Grunt doing?
 -----------
@@ -84,3 +108,5 @@ the defaults.
 - `use_compass`
   - If set to `true` will use compass config.rb to compile stylesheets.
     If not defined, will default to LibSass.
+- `use_image_compression`
+  - If set to `true` will use compress SVG / PNG / JPG images in src/images folder.
