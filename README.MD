@@ -10,22 +10,22 @@ If not you can get it from [here](https://nodejs.org/download/)
 
 ### Do you have Grunt installed?
 
-If not you can get it by running `npm install -g grunt-cli` in command line
+If not you can get it by running `sudo npm install -g grunt-cli` in command line
 
 ### Do you have PHP_CodeSniffer installed?
 
   1. Use PEAR to install PHP_CodeSniffer
-    1. `sudo pear install PHP_CodeSniffer`
+     1. `sudo pear install PHP_CodeSniffer`
   2. Find PHP_CodeSniffer home
-    1. You can use `pear list-files PHP_CodeSniffer` to find the directory
-      1. [PEAR info on packages](https://pear.php.net/manual/en/guide.users.commandline.packageinfo.php)
-      2. Reference: [Check solution](http://stackoverflow.com/questions/14257209/php-codesniffer-include-once-error)
-    2. Use PHP_CodeSniffer location in bin option in:
-       `.local_grunt_settings.json` (See below - 'How do I use my personal preferences with grunt?').
+     1. You can use `pear list-files PHP_CodeSniffer` to find the directory
+         1. [PEAR info on packages](https://pear.php.net/manual/en/guide.users.commandline.packageinfo.php)
+         2. Reference: [Check solution](http://stackoverflow.com/questions/14257209/php-codesniffer-include-once-error)
+     2. Use PHP_CodeSniffer location in bin option in:
+        `.local_grunt_settings.json` (See below - 'How do I use my personal preferences with grunt?').
   3. Install Drupal Standard
-    1. Go to [here](https://www.drupal.org/project/coder) and download coder 8.x-2.3
-    2. Add `coder_sniffer/Drupal` folder to your CodeSniffer Standards folder.
-       E.g. `/Users/salsadigital/pear/share/pear/PHP/CodeSniffer/Standards/`
+     1. Go to [here](https://www.drupal.org/project/coder) and download coder 8.x-2.3
+     2. Add `coder_sniffer/Drupal` folder to your CodeSniffer Standards folder.
+        E.g. `/Users/salsadigital/pear/share/pear/PHP/CodeSniffer/Standards/`
 
 Using Grunt - The quick version
 -----------
@@ -42,7 +42,7 @@ Within the '/src' folder, place all working SCSS, JS and image files in their re
 When run, Grunt will populate the '/dist/css', '/dist/js' and 'dist/images' folders.
 
 An example of a src folder setup is:
-
+```
 src/
   sass/
     `styles.scss`
@@ -64,6 +64,7 @@ src/
         `optimise.svg`
       raw/
         `raw.svg`
+```
 
 What is Grunt doing?
 -----------
@@ -86,14 +87,18 @@ If you create a JSON file called `.local_grunt_settings.json` in the same direct
 as Gruntfile.js.  When grunt runs it will use the settings from this file instead of
 the defaults.
 
-### Example JSON for `.local_grunt_settings.json`:
+Note: Make sure git is set to ignore this file. This shouldn't be a part of the repo.
 
+### Example JSON for `.local_grunt_settings.json`:
+```
 {
   "custom_modules_directory": "../../modules/custom/",
   "theme_directory": "../",
   "phpcs_bin": "/Users/salsadigital/pear/bin/phpcs",
-  "use_compass": false
+  "use_compass": false,
+  "use_image_compression": false
 }
+```
 
 ### Supported Settings:
 - `custom_modules_directory`
