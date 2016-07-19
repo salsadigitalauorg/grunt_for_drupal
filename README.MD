@@ -14,18 +14,16 @@ If not you can get it by running `sudo npm install -g grunt-cli` in command line
 
 ### Do you have PHP_CodeSniffer installed?
 
-  1. Use PEAR to install PHP_CodeSniffer
-     1. `sudo pear install PHP_CodeSniffer`
+  1. User COMPOSER to install PHP_CodeSniffer
+     1. `composer global require "squizlabs/php_codesniffer=*"`
   2. Find PHP_CodeSniffer home
-     1. You can use `pear list-files PHP_CodeSniffer` to find the directory
-         1. [PEAR info on packages](https://pear.php.net/manual/en/guide.users.commandline.packageinfo.php)
-         2. Reference: [Check solution](http://stackoverflow.com/questions/14257209/php-codesniffer-include-once-error)
+     1. By default: `~/.composer/vendor/bin/phpcs`
      2. Use PHP_CodeSniffer location in bin option in:
         `.local_grunt_settings.json` (See below - 'How do I use my personal preferences with grunt?').
   3. Install Drupal Standard
      1. Go to [here](https://www.drupal.org/project/coder) and download coder 8.x-2.3
      2. Add `coder_sniffer/Drupal` folder to your CodeSniffer Standards folder.
-        E.g. `/Users/salsadigital/pear/share/pear/PHP/CodeSniffer/Standards/`
+        E.g. `~/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/Drupal`
 
 Using Grunt - The quick version
 -----------
