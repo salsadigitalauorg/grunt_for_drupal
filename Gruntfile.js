@@ -1,14 +1,15 @@
 var fs = require('fs');
+var path = require('path');
 
-function loadExternalGruntSettings() {
+function loadExternalGruntSettings(path, setting_type) {
   try {
-    var data = fs.readFileSync('.local_grunt_settings.json', 'utf8');
+    var data = fs.readFileSync(path, 'utf8');
     var ob = JSON.parse(data);
-    console.log('* Using Local Settings');
+    console.log('* Using ' + setting_type + ' Settings');
     return ob;
   }
   catch(e) {
-    console.log('* Local settings not found. Using defaults.')
+    console.log('* ' + setting_type + ' settings not found. Using defaults.');
     return false;
   }
 }
@@ -16,15 +17,23 @@ function loadExternalGruntSettings() {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.4");
+  console.log("Grunt for Drupal - v2.5");
   console.log("================================================");
-  var localSettings         = loadExternalGruntSettings();
-  var THEME_DIR             = localSettings.theme_directory || '../';
-  var MODULE_DIR            = localSettings.custom_modules_directory || null;
-  var PROFILE_MODULE_DIR            = localSettings.profile_modules_directory || null;
+  var localSettings         = loadExternalGruntSettings('.local_grunt_settings.json', 'Local');
+  var projectSettings       = loadExternalGruntSettings('project_grunt_settings.json', 'Project');
   var PHPCS_BIN_DIR         = localSettings.phpcs_bin || null;
-  var USE_COMPASS           = localSettings.use_compass || false;
-  var USE_IMAGE_COMPRESSION = localSettings.use_image_compression || false;
+  var THEME_DIR             = localSettings.theme_directory || projectSettings.theme_directory || '../';
+  var MODULE_DIR            = localSettings.custom_modules_directory || projectSettings.custom_modules_directory || null;
+  var PROFILE_MODULE_DIR    = localSettings.profile_modules_directory || projectSettings.profile_modules_directory || null;
+  var USE_COMPASS           = localSettings.use_compass || projectSettings.use_compass || false;
+  var USE_IMAGE_COMPRESSION = localSettings.use_image_compression || projectSettings.use_image_compression || false;
+  var DRUPAL_VERSION        = localSettings.drupal_version || projectSettings.drupal_version || 7;
+  // Get theme path
+  var path_dir              = path.resolve(THEME_DIR).split(path.sep);
+  var THEME_NAME            = path_dir[path_dir.length - 1];
+  // Some helpful output
+  console.log('* Drupal version: ' + DRUPAL_VERSION);
+  console.log('* Theme: ' + THEME_NAME);
   console.log("------------------------------------------------");
 
   // =========================================================
@@ -267,10 +276,19 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-phpcs');
     REGISTERED_TASKS = REGISTERED_TASKS.concat(['phpcs']);
 
-    var phpcs_src_files = [
-      THEME_DIR + 'template.php',
-      THEME_DIR + 'templates/*.php'
-    ];
+    var phpcs_src_files = [];
+
+    if (DRUPAL_VERSION == 8) {
+      phpcs_src_files = [
+        THEME_DIR + THEME_NAME + '.theme'
+      ];
+    }
+    else {
+      phpcs_src_files = [
+        THEME_DIR + 'template.php',
+        THEME_DIR + 'templates/*.php'
+      ];
+    }
 
     if (MODULE_DIR !== null) {
       phpcs_src_files = phpcs_src_files.concat([
