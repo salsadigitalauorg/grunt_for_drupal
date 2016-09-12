@@ -17,7 +17,7 @@ function loadExternalGruntSettings(path, setting_type) {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.5");
+  console.log("Grunt for Drupal - v2.6");
   console.log("================================================");
   var localSettings         = loadExternalGruntSettings('.local_grunt_settings.json', 'Local');
   var projectSettings       = loadExternalGruntSettings('project_grunt_settings.json', 'Project');
@@ -27,6 +27,8 @@ module.exports = function(grunt) {
   var PROFILE_MODULE_DIR    = localSettings.profile_modules_directory || projectSettings.profile_modules_directory || null;
   var USE_COMPASS           = localSettings.use_compass || projectSettings.use_compass || false;
   var USE_IMAGE_COMPRESSION = localSettings.use_image_compression || projectSettings.use_image_compression || false;
+  var USE_PREFIXER          = localSettings.use_prefixer || projectSettings.use_prefixer || true;
+  var PREFIXER_BROWSERS     = localSettings.prefixer_browsers || projectSettings.prefixer_browsers || ['last 2 versions', 'not ie <= 8'];
   var DRUPAL_VERSION        = localSettings.drupal_version || projectSettings.drupal_version || 7;
   // Get theme path
   var path_dir              = path.resolve(THEME_DIR).split(path.sep);
@@ -266,6 +268,28 @@ module.exports = function(grunt) {
     GRUNT_CONFIG['sass'] = sass_config;
 
     GRUNT_CONFIG.watch.styles.tasks.push('sass');
+  }
+
+  // ================================================
+  // Auto prefixer
+  // ================================================
+  if (USE_PREFIXER) {
+    grunt.loadNpmTasks('grunt-postcss');
+    REGISTERED_TASKS = REGISTERED_TASKS.concat(['postcss:dist']);
+
+    GRUNT_CONFIG['postcss'] = {
+      options: {
+        map: true,
+        processors: [
+          require('autoprefixer')({browsers: PREFIXER_BROWSERS})
+        ]
+      },
+      dist: {
+        src: THEME_DIR + 'dist/css/styles.css'
+      }
+    };
+
+    GRUNT_CONFIG.watch.styles.tasks.push('postcss:dist');
   }
 
   // ================================================

@@ -1,4 +1,4 @@
-Using The Grunt for Drupal v2.4 Setup
+Using The Grunt for Drupal v2.6 Setup
 =======
 
 Setting Up
@@ -76,6 +76,8 @@ Within the `Gruntfile.js`, the following processes are run:
     * Merges all JS files into 1. Allows breaking up of JS files into components.
   * sass
     * Compile the SCSS.
+  * auto prefixing
+    * Automatically adds -webkit- -moz- -ms- prefixes to CSS styles.
   * pngmin, svgmin, imagemin
     * Optimize images.
   * phpcs
@@ -84,10 +86,10 @@ Within the `Gruntfile.js`, the following processes are run:
 How do I use my personal preferences with grunt?
 -----------
 
-If you create a JSON file called `.local_grunt_settings.json` in the same directory
-as Gruntfile.js.  When grunt runs it will use the settings from this file instead of
-the defaults. Make sure git is set to ignore this file. This shouldn't be a
-part of the repo.
+Create a JSON file called `.local_grunt_settings.json` in the same directory 
+as Gruntfile.js.  When grunt runs it will use the settings from this file 
+instead of the defaults. Make sure git is set to ignore this file. 
+This shouldn't be a part of the repo.
 
 For settings unique to a project that should be included in the repository,
 create a `project_grunt_settings.json` file.
@@ -107,6 +109,8 @@ create a `project_grunt_settings.json` file.
   "theme_directory": "../",
   "use_compass": false,
   "use_image_compression": false,
+  "use_prefixer": true,
+  "prefixer_browsers": ['last 2 versions', 'not ie <= 8'],
   "drupal_version": 8
 }
 ```
@@ -133,3 +137,8 @@ create a `project_grunt_settings.json` file.
   - If set to `true` will use compress SVG / PNG / JPG images in src/images folder.
 - `drupal_version`
   - Set an integer (e.g. `7` or `8`).
+- `use_prefixer`
+  - Use the Auto Prefixer. Set to `true` by default.
+- `prefixer_browsers`
+  - Define what browsers Auto Prefixer should support.
+    Default is `last 2 versions`, `not ie <= 8`.
