@@ -37,8 +37,9 @@ Using Grunt for Drupal - The quick version
 
   1. Add your working files (SCSS, JS, Images) in '/src' sub-directories.
   2. Use command line to navigate to the root directory (directory containing Gruntfile.js) and type `npm install` to install needed modules.
-  3. Type `grunt` for a full compile.
-  4. If you wish to use the auto-compile, type `grunt watch`. It will compile the necessary parts depending on what files change.
+  3. Ensure you've created your .local_grunt_settings.json file (see below)
+  4. Type `grunt` for a full compile.
+  5. If you wish to use the auto-compile, type `grunt watch`. It will compile the necessary parts depending on what files change.
 
 What is Grunt for Drupal doing?
 -----------
