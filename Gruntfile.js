@@ -17,7 +17,7 @@ function loadExternalGruntSettings(path, setting_type) {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.6");
+  console.log("Grunt for Drupal - v2.7");
   console.log("================================================");
   var localSettings         = loadExternalGruntSettings('.local_grunt_settings.json', 'Local');
   var projectSettings       = loadExternalGruntSettings('project_grunt_settings.json', 'Project');
@@ -27,6 +27,7 @@ module.exports = function(grunt) {
   var PROFILE_MODULE_DIR    = localSettings.profile_modules_directory || projectSettings.profile_modules_directory || null;
   var USE_COMPASS           = localSettings.use_compass || projectSettings.use_compass || false;
   var USE_IMAGE_COMPRESSION = localSettings.use_image_compression || projectSettings.use_image_compression || false;
+  var USE_SCSS_FILENAME     = localSettings.use_scss_filename || projectSettings.use_scss_filename || 'styles';
   var USE_PREFIXER          = localSettings.use_prefixer || projectSettings.use_prefixer || true;
   var PREFIXER_BROWSERS     = localSettings.prefixer_browsers || projectSettings.prefixer_browsers || ['last 2 versions', 'not ie <= 8'];
   var DRUPAL_VERSION        = localSettings.drupal_version || projectSettings.drupal_version || 7;
@@ -263,7 +264,10 @@ module.exports = function(grunt) {
         files: {}
       }
     };
-    sass_config.dist.files[THEME_DIR + 'dist/css/styles.css'] = THEME_DIR + 'src/sass/styles.scss';
+
+    var dest_file = THEME_DIR + 'dist/css/' + USE_SCSS_FILENAME + '.css';
+    var src_file = THEME_DIR + 'src/sass/' + USE_SCSS_FILENAME + '.scss';
+    sass_config.dist.files[dest_file] = src_file;
 
     GRUNT_CONFIG['sass'] = sass_config;
 

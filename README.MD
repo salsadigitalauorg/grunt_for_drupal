@@ -1,13 +1,13 @@
 Grunt for Drupal
 ========
-version v2.6
+version v2.7
 Maintained by [Salsa Digital](http://salsadigital.com.au/).
 
 What is this?
 -----------
 Grunt for Drupal is a grunt project with commonly used tasks to assists Drupal theme and module development.
 
-Setting Up
+Before setting up
 -----------
 
 ### Do you have NodeJS / NPM installed?
@@ -32,14 +32,22 @@ If not you can get it by running `sudo npm install -g grunt-cli` in command line
      2. Extract and add `coder_sniffer/Drupal` folder to your CodeSniffer Standards folder.
         E.g. `~/.composer/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/Drupal`
 
+First-time setup for Grunt for Drupal
+-----------
+
+  1. Navigate to your Drupal theme root folder.
+  2. Clone the repo: `git clone https://github.com/salsadigitalauorg/grunt_for_drupal.git ./grunt`.
+  3. Create your `./src` directory (See `example folder setup script` below for folder structure).
+  4. Add your source files (SCSS, JS, Images) in `./src` sub-directories.
+  5. Create a `./grunt/project_grunt_settings.json` file and configure project settings.
+
 Using Grunt for Drupal - The quick version
 -----------
 
-  1. Add your working files (SCSS, JS, Images) in '/src' sub-directories.
-  2. Use command line to navigate to the root directory (directory containing Gruntfile.js) and type `npm install` to install needed modules.
-  3. Ensure you've created your .local_grunt_settings.json file (see below)
-  4. Type `grunt` for a full compile.
-  5. If you wish to use the auto-compile, type `grunt watch`. It will compile the necessary parts depending on what files change.
+  1. If you need personalised settings, create a `./grunt/.local_grunt_settings.json` file (see below).
+  2. Use command line to navigate inside the `./grunt` directory and type `npm install` to install necessary modules.
+  3. Type `grunt` for a full compile (everything).
+  4. Type `grunt watch` for an automatic compile on file change (only necessary commands will run).
 
 What is Grunt for Drupal doing?
 -----------
@@ -141,6 +149,7 @@ This should be included in the repository.
   "use_compass": false,
   "use_image_compression": false,
   "use_prefixer": true,
+  "use_scss_filename": "styles",
   "prefixer_browsers": ["last 2 versions", "not ie <= 8", "iOS >= 7"],
   "drupal_version": 8
 }
@@ -170,6 +179,9 @@ This should be included in the repository.
   - Set an integer (e.g. `7` or `8`).
 - `use_prefixer`
   - Use the Auto Prefixer. Set to `true` by default.
+- `use_scss_filename`
+  - Define the SCSS filename to target in the theme (e.g. `styles`).
+    This will also affect the .css filename (e.g. "styles.scss" -> "styles.css").
 - `prefixer_browsers`
   - Define what browsers Auto Prefixer should support.
     Default is `last 2 versions`, `not ie <= 8`.
