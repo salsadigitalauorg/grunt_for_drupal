@@ -1,20 +1,25 @@
 {
-  "name": "salsa-digital",
-  "version": "0.1.0",
+  "name": "grunt-for-drupal",
+  "version": "2.8.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/salsadigitalauorg/grunt_for_drupal"
+  },
   "devDependencies": {
-    "autoprefixer": "^6.4.1",
+    "autoprefixer": "^6.6.0",
     "grunt": "~1.0.1",
-    "grunt-contrib-compass": "^1.0.3",
+    "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-imagemin": "^1.0.0",
+    "grunt-contrib-imagemin": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-jsbeautifier": "^0.2.10",
+    "grunt-jsbeautifier": "^0.2.13",
     "grunt-phpcs": "^0.4.0",
-    "grunt-pngmin": "^1.0.2",
+    "grunt-pngmin": "^1.2.0",
     "grunt-postcss": "^0.8.0",
-    "grunt-sass": "^1.1.0",
-    "grunt-svgmin": "^3.1.2",
+    "grunt-sass": "^2.0.0",
+    "grunt-svgmin": "^4.0.0",
     "postcss-cli": "^2.6.0"
   }
 }
