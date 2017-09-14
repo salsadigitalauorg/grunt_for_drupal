@@ -1,6 +1,6 @@
 Grunt for Drupal
 ========
-version v2.8
+version v2.9
 Maintained by [Salsa Digital](http://salsadigital.com.au/).
 
 What is this?
@@ -145,6 +145,7 @@ This should be included in the repository.
 {
   "custom_modules_directory": "../../modules/custom/",
   "profile_modules_directory": "../../modules/custom/",
+  "custom_script_paths": "custom/path/**/*.js",
   "theme_directory": "../",
   "use_compass": false,
   "use_image_compression": false,
@@ -163,6 +164,9 @@ This should be included in the repository.
   - This is the directory to your profile modules.
     If not defined then no profile module files will be validated.
     Works the same as *custom_modules_directory*.
+- `custom_script_paths`
+  - Array of any additional scripts to add that may not be in /src folder.
+    These will be beautified and concatenated with any `src/js` scripts.
 - `theme_directory`
   - This is the directory to your theme.
     If not defined, theme directory will default to one folder level above this.
