@@ -85,8 +85,6 @@ module.exports = function(grunt) {
     beautify_all = beautify_all.concat(CUSTOM_BEAUTIFY);
   }
 
-  console.log(beautify_all);
-
   GRUNT_CONFIG['jsbeautifier'] = {
     files : beautify_all,
     options : {
