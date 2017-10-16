@@ -17,7 +17,7 @@ function loadExternalGruntSettings(path, setting_type) {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.9");
+  console.log("Grunt for Drupal - v2.10");
   console.log("================================================");
   var localSettings         = loadExternalGruntSettings('.local_grunt_settings.json', 'Local');
   var projectSettings       = loadExternalGruntSettings('project_grunt_settings.json', 'Project');
@@ -26,6 +26,7 @@ module.exports = function(grunt) {
   var MODULE_DIR            = localSettings.custom_modules_directory || projectSettings.custom_modules_directory || null;
   var PROFILE_MODULE_DIR    = localSettings.profile_modules_directory || projectSettings.profile_modules_directory || null;
   var CUSTOM_SCRIPTS        = localSettings.custom_script_paths || projectSettings.custom_script_paths || false;
+  var CUSTOM_BEAUTIFY       = localSettings.custom_beautify || projectSettings.custom_beautify || false;
   var USE_COMPASS           = localSettings.use_compass || projectSettings.use_compass || false;
   var USE_IMAGE_COMPRESSION = localSettings.use_image_compression || projectSettings.use_image_compression || false;
   var USE_SCSS_FILENAME     = localSettings.use_scss_filename || projectSettings.use_scss_filename || 'styles';
@@ -79,6 +80,12 @@ module.exports = function(grunt) {
   }
 
   var beautify_all = beautify_js.concat(beautify_scss);
+
+  if (CUSTOM_BEAUTIFY) {
+    beautify_all = beautify_all.concat(CUSTOM_BEAUTIFY);
+  }
+
+  console.log(beautify_all);
 
   GRUNT_CONFIG['jsbeautifier'] = {
     files : beautify_all,
