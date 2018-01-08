@@ -1,6 +1,6 @@
 Grunt for Drupal
 ========
-version v2.10
+version v2.11
 Maintained by [Salsa Digital](http://salsadigital.com.au/).
 
 What is this?

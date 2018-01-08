@@ -1,10 +1,13 @@
 {
   "name": "grunt-for-drupal",
-  "version": "2.8.0",
+  "version": "2.11.0",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/salsadigitalauorg/grunt_for_drupal"
+  },
+  "scripts": {
+    "install": "bash updates.sh"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.0",

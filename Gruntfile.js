@@ -17,7 +17,7 @@ function loadExternalGruntSettings(path, setting_type) {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.10");
+  console.log("Grunt for Drupal - v2.11");
   console.log("================================================");
   var localSettings         = loadExternalGruntSettings('.local_grunt_settings.json', 'Local');
   var projectSettings       = loadExternalGruntSettings('project_grunt_settings.json', 'Project');
