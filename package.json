@@ -1,17 +1,15 @@
 {
   "name": "grunt-for-drupal",
-  "version": "2.11.0",
+  "version": "2.12.0",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/salsadigitalauorg/grunt_for_drupal"
   },
-  "scripts": {
-    "install": "bash updates.sh"
-  },
   "devDependencies": {
     "autoprefixer": "^6.6.0",
     "grunt": "~1.0.1",
+    "js-beautify": "1.6.8",
     "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
