@@ -1,6 +1,6 @@
 Grunt for Drupal
 ========
-version v2.12
+version v2.13
 Maintained by [Salsa Digital](http://salsadigital.com.au/).
 
 What is this?
@@ -151,7 +151,7 @@ This should be included in the repository.
   "use_compass": false,
   "use_image_compression": false,
   "use_prefixer": true,
-  "use_scss_filename": "styles",
+  "use_scss_filename": ["styles"],
   "prefixer_browsers": ["last 2 versions", "not ie <= 8", "iOS >= 7"],
   "drupal_version": 8
 }
@@ -188,7 +188,7 @@ This should be included in the repository.
 - `use_prefixer`
   - Use the Auto Prefixer. Set to `true` by default.
 - `use_scss_filename`
-  - Define the SCSS filename to target in the theme (e.g. `styles`).
+  - Set a string / array to the SCSS filename to target in the theme (e.g. `styles`).
     This will also affect the .css filename (e.g. "styles.scss" -> "styles.css").
 - `prefixer_browsers`
   - Define what browsers Auto Prefixer should support.

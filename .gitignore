@@ -1,3 +1,4 @@
 .sass-cache
 .local_grunt_settings.json
+package-lock.json
 node_modules

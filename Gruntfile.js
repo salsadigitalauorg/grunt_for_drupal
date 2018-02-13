@@ -17,7 +17,7 @@ function loadExternalGruntSettings(path, setting_type) {
 module.exports = function(grunt) {
 
   console.log("================================================");
-  console.log("Grunt for Drupal - v2.12");
+  console.log("Grunt for Drupal - v2.13");
   console.log("================================================");
   var localSettings         = loadExternalGruntSettings('.local_grunt_settings.json', 'Local');
   var projectSettings       = loadExternalGruntSettings('project_grunt_settings.json', 'Project');
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
   var CUSTOM_BEAUTIFY       = localSettings.custom_beautify || projectSettings.custom_beautify || false;
   var USE_COMPASS           = localSettings.use_compass || projectSettings.use_compass || false;
   var USE_IMAGE_COMPRESSION = localSettings.use_image_compression || projectSettings.use_image_compression || false;
-  var USE_SCSS_FILENAME     = localSettings.use_scss_filename || projectSettings.use_scss_filename || 'styles';
+  var USE_SCSS_FILENAME     = localSettings.use_scss_filename || projectSettings.use_scss_filename || ['styles'];
   var USE_PREFIXER          = localSettings.use_prefixer || projectSettings.use_prefixer || true;
   var PREFIXER_BROWSERS     = localSettings.prefixer_browsers || projectSettings.prefixer_browsers || ['last 2 versions', 'not ie <= 8'];
   var DRUPAL_VERSION        = localSettings.drupal_version || projectSettings.drupal_version || 7;
@@ -60,9 +60,13 @@ module.exports = function(grunt) {
     script_files = script_files.concat(CUSTOM_SCRIPTS);
   }
 
-  // ================================================
+  if (!Array.isArray(USE_SCSS_FILENAME)) {
+    USE_SCSS_FILENAME = [USE_SCSS_FILENAME];
+  }
+
+  // =========================================================
   // JavaScript / SASS Beautifier
-  // ================================================
+  // =========================================================
   grunt.loadNpmTasks("grunt-jsbeautifier");
   REGISTERED_TASKS = REGISTERED_TASKS.concat(['jsbeautifier']);
 
@@ -144,9 +148,9 @@ module.exports = function(grunt) {
     }
   };
 
-  // ================================================
+  // =========================================================
   // IMAGE OPTIMISATION
-  // ================================================
+  // =========================================================
   if (USE_IMAGE_COMPRESSION) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-svgmin');
@@ -232,9 +236,9 @@ module.exports = function(grunt) {
     };
   }
 
-  // ================================================
+  // =========================================================
   // SCRIPT CONCAT
-  // ================================================
+  // =========================================================
   grunt.loadNpmTasks('grunt-contrib-concat');
   REGISTERED_TASKS = REGISTERED_TASKS.concat(['concat']);
 
@@ -250,9 +254,9 @@ module.exports = function(grunt) {
 
   GRUNT_CONFIG.watch.scripts.tasks.push('concat');
 
-  // ================================================
+  // =========================================================
   // SASS
-  // ================================================
+  // =========================================================
   if (USE_COMPASS) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     REGISTERED_TASKS = REGISTERED_TASKS.concat(['compass']);
@@ -282,40 +286,48 @@ module.exports = function(grunt) {
       }
     };
 
-    var dest_file = THEME_DIR + 'dist/css/' + USE_SCSS_FILENAME + '.css';
-    var src_file = THEME_DIR + 'src/sass/' + USE_SCSS_FILENAME + '.scss';
-    sass_config.dist.files[dest_file] = src_file;
+    USE_SCSS_FILENAME.forEach(function(filename) {
+      var dest_file = THEME_DIR + 'dist/css/' + filename + '.css';
+      var src_file = THEME_DIR + 'src/sass/' + filename + '.scss';
+      sass_config.dist.files[dest_file] = src_file;
+    });
 
     GRUNT_CONFIG['sass'] = sass_config;
 
     GRUNT_CONFIG.watch.styles.tasks.push('sass');
   }
 
-  // ================================================
+  // =========================================================
   // Auto prefixer
-  // ================================================
+  // =========================================================
   if (USE_PREFIXER) {
     grunt.loadNpmTasks('grunt-postcss');
     REGISTERED_TASKS = REGISTERED_TASKS.concat(['postcss:dist']);
 
-    GRUNT_CONFIG['postcss'] = {
+    var postcss_config = {
       options: {
         map: true,
         processors: [
-          require('autoprefixer')({browsers: PREFIXER_BROWSERS})
+          require('autoprefixer')({ browsers: PREFIXER_BROWSERS })
         ]
       },
       dist: {
-        src: THEME_DIR + 'dist/css/styles.css'
+        src: []
       }
-    };
+    }
+
+    USE_SCSS_FILENAME.forEach(function(filename) {
+      postcss_config.dist.src.push(THEME_DIR + 'dist/css/' + filename + '.css');
+    });
+
+    GRUNT_CONFIG['postcss'] = postcss_config;
 
     GRUNT_CONFIG.watch.styles.tasks.push('postcss:dist');
   }
 
-  // ================================================
+  // =========================================================
   // Drupal Code Sniffer
-  // ================================================
+  // =========================================================
   if (PHPCS_BIN_DIR !== null) {
     // Set up Grunt
     grunt.loadNpmTasks('grunt-phpcs');
